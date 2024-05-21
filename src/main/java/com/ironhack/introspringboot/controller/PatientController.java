@@ -1,9 +1,11 @@
 package com.ironhack.introspringboot.controller;
 
 import com.ironhack.introspringboot.model.Patient;
+import com.ironhack.introspringboot.repository.PatientRepository;
 import com.ironhack.introspringboot.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -13,6 +15,9 @@ import java.util.List;
 public class PatientController {
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     @GetMapping("/patients")
     public List<Patient> getAllPatients(){
@@ -40,5 +45,17 @@ public class PatientController {
     @GetMapping("/patients/status-off")
     public List<Patient> getAllByEmployeeStatusOff(){
         return patientService.findAllByEmployeeStatusOff();
+    }
+
+    @PostMapping("/patients")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addPatient(@RequestBody Patient patient) {
+        patientRepository.save(patient);
+    }
+
+    @PatchMapping("/patient/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updatePatient(@PathVariable Integer id, @RequestBody Patient patient) {
+        patientService.updatePatient(id, patient);
     }
 }

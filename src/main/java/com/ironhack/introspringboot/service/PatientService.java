@@ -51,4 +51,15 @@ public class PatientService {
             throw new RuntimeException("Error: "+ e);
         }
     }
+
+    public void updatePatient(Integer id, Patient patient) {
+        Optional<Patient> patientOptional = patientRepository.findById(id);
+        if (patientOptional.isPresent()) {
+            Patient newPatient = patientOptional.get();
+            newPatient.setName(patient.getName());
+            newPatient.setDateOfBirth(patient.getDateOfBirth());
+            newPatient.setAdmittedBy(patient.getAdmittedBy());
+            patientRepository.save(patient);
+        }
+    }
 }

@@ -35,4 +35,22 @@ public class EmployeeService {
     public List<Employee> findAllByDepartment(String department){
         return employeeRepository.findAllByDepartment(department);
     }
+
+    public void updateEmployeeStatus(String id, Status status) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            employee.setStatus(status);
+            employeeRepository.save(employee);
+        }
+    }
+
+    public void updateEmployeeDepartment(String id, String department) {
+        Optional<Employee> employeeOptional = employeeRepository.findById(id);
+        if (employeeOptional.isPresent()) {
+            Employee employee = employeeOptional.get();
+            employee.setDepartment(department);
+            employeeRepository.save(employee);
+        }
+    }
 }
